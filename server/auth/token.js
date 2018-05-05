@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken')
 const db = require('../db/users')
 
 module.exports = {
-  issue
+  issue,
+  handleError
 }
 
 function issue (req, res) {
@@ -25,9 +26,18 @@ function issue (req, res) {
 
 function createToken (user, secret) {
   return jwt.sign({
-    id: user.id,
-    username: user.username
+    id: user.id
   }, secret, {
     expiresIn: '1d'
   })
+}
+
+function handleError (err, req, res, next) {
+  if (err) {
+    return res.status(403).json({
+      message: 'Access to this resource was denied.',
+      error: err.message
+    })
+  }
+  next()
 }

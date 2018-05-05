@@ -6,8 +6,6 @@ const router = express.Router()
 
 router.use(express.json())
 
-module.exports = router
-
 router.get('/', (req, res) => {
   db.getUsers()
     .then(users => {
@@ -17,3 +15,5 @@ router.get('/', (req, res) => {
       res.status(500).send(err.message)
     })
 })
+
+module.exports = router

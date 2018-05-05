@@ -7,6 +7,11 @@ const router = express.Router()
 
 router.use(express.json())
 
+router.get('/pub',
+  (req, res) => {
+    res.send('Pub')
+  }
+)
 router.post('/register', register, token.issue)
 router.post('/login', login, token.issue)
 
