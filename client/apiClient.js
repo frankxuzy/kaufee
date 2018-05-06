@@ -1,4 +1,6 @@
 import request from 'superagent'
+import {get} from './utils/localStorage'
+import {isAuthenticated} from './utils/auth'
 
 export function getCurrentOrder () {
   return request.get('/api/v1/current-order')
@@ -29,8 +31,26 @@ export function addOrderItem (userId, orderId) {
     .send(data)
 }
 
-export function loginUser (userDetails) {
-  return request.post('/api/v1/auth/login')
-    .send(userDetails)
-    .then(res => res.body.token)
+// export function loginUser (userDetails) {
+//   return request.post('/api/v1/auth/login')
+//     .send(userDetails)
+//     .then(res => res.body.token)
+// }
+
+export function loginUserReq (method = 'get', cred) {
+  const dataMethod = method.toLowerCase() === 'get' ? 'query' : 'send'
+  const token = get('token')
+  const headers = {
+    Accept: 'application/json'
+  }
+  if (isAuthenticated) {
+    headers.Authorization = `Bearer ${token}`
+  }
+
+  return request[method]('/api/v1/login')
+    .set(headers)[dataMethod](cred)
+    .then(res => res)
+    .catch(err => {
+      throw err
+    })
 }

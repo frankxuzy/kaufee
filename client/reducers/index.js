@@ -2,10 +2,10 @@ import {combineReducers} from 'redux'
 
 import currentOrder from './currentOrder'
 import userList from './userList'
-import register from './register'
+import auth from './auth'
 
 export default combineReducers({
   currentOrder,
   userList,
-  register
+  auth
 })
