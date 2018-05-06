@@ -1,5 +1,7 @@
 import React from 'react'
-import {loginUser} from '../apiClient'
+import {connect} from 'react-redux'
+
+import {loginUser} from '../actions/login'
 
 class Login extends React.Component {
   constructor (props) {
@@ -20,11 +22,7 @@ class Login extends React.Component {
 
   attemptUserLogin () {
     if (this.state.username && this.state.password) {
-      loginUser({...this.state})
-        .then(token => {
-          // TODO separate to different module
-          localStorage.setItem('token', token)
-        })
+      this.props.loginUser({...this.state})
     }
   }
 
@@ -39,5 +37,12 @@ class Login extends React.Component {
     )
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    loginUser: creds => {
+      return dispatch(loginUser(creds))
+    }
+  }
+}
 
-export default Login
+export default connect(null, mapDispatchToProps)(Login)
