@@ -47,7 +47,7 @@ export function loginUserReq (method = 'get', cred) {
     headers.Authorization = `Bearer ${token}`
   }
 
-  return request[method]('/api/v1/login')
+  return request[method]('/api/v1/auth/login')
     .set(headers)[dataMethod](cred)
     .then(res => res)
     .catch(err => {

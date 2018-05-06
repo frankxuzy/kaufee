@@ -1,5 +1,5 @@
-import loginUserReq from '../apiClient'
-import saveUserToken from '../utils/auth'
+import {loginUserReq} from '../apiClient'
+import {saveUserToken} from '../utils/auth'
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
