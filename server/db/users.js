@@ -6,17 +6,15 @@ const {generate} = require('../auth/hash')
 function getCredsByName (username, db = connection) {
   return db('creds')
     .select()
-    .where('username', username)
+    .whereRaw('LOWER(username) LIKE ?', username.toLowerCase())
     .first()
 }
 
 function userExists (username, db = connection) {
   return db('creds')
-    .count('id as n')
-    .where('username', username)
-    .then(count => {
-      return count[0].n > 0
-    })
+    .whereRaw('LOWER(username) LIKE ?', username.toLowerCase())
+    .first()
+    .then(user => !!user)
 }
 
 function createUser (username, name, password, db = connection) {
@@ -41,15 +39,40 @@ function getUser (userId, conn = connection) {
     .where('id', '=', userId)
     .select(
       'id as userId',
+      'cred_id as credId',
       'name',
       'order_text as orderText'
     )
     .first()
 }
 
+function getUserByCredId (credsId, conn = connection) {
+  return conn('users')
+    .where('cred_id', '=', credsId)
+    .select(
+      'id as userId',
+      'cred_id as credId',
+      'name',
+      'order_text as orderText'
+    )
+    .first()
+}
+function updateUser (user, conn = connection) {
+  return conn('users')
+    .where('id', '=', user.userId)
+    .update({
+      'id': user.userId,
+      'cred_id': user.credId,
+      'name': user.name,
+      'order_text': user.orderText
+    })
+}
+
 module.exports = {
   getCredsByName,
+  getUserByCredId,
   userExists,
   createUser,
-  getUser
+  getUser,
+  updateUser
 }

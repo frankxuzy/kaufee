@@ -1,73 +1,97 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import Order from './Order'
-import Users from './Users'
-import {requestCurrentOrder, requestUsers, updateOrder} from '../actions'
+import OrderList from './OrderList'
+import AddToOrder from './AddToOrder'
+import CreateNew from './CreateNew'
+import CompleteButton from './CompleteButton'
+import {get} from '../utils/localStorage'
+import {receiveLogin} from '../actions/login'
+import {getUser} from '../apiClient'
+import {
+  requestCurrentOrder,
+  requestUsers,
+  orderComplete,
+  deleteItemById
+} from '../actions'
 
 class Home extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      userId: 0
-    }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleAdd = this.handleAdd.bind(this)
+    this.markComplete = this.markComplete.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
+    this.renderActiveOrder = this.renderActiveOrder.bind(this)
+    this.renderInactiveOrder = this.renderInactiveOrder.bind(this)
+    this.hasAuth = this.hasAuth.bind(this)
   }
 
-  handleChange (e) {
-    this.setState({
-      userId: e.target.value
-    })
-  }
-
-  handleAdd (e) {
-    e.preventDefault()
-    this.props.dispatch(updateOrder(this.state.userId, this.props.orderId))
-  }
-  
   componentDidMount () {
     this.props.dispatch(requestCurrentOrder())
     this.props.dispatch(requestUsers())
+    this.hasAuth()
+  }
+
+  markComplete () {
+    this.props.dispatch(orderComplete(this.props.orderId))
+  }
+
+  hasAuth () {
+    const token = get('token')
+    if (token) {
+      getUser()
+        .then(user => {
+          this.props.dispatch(receiveLogin(user))
+        })
+    }
+  }
+
+  deleteItem (id) {
+    this.props.dispatch(deleteItemById(id))
   }
 
   render () {
-    const orders = this.props.orders || []
-    const users = this.props.users || []
+    const items = this.props.items || []
     return (
       <div className='order-container'>
         <h2>Current Order</h2>
-        <ul>
-          {orders.map(order =>
-            <Order key={order.id}
-              {...order}
-            />
-          )}
-        </ul>
-        <div className='addorder'>
-          <form onSubmit={this.handleAdd}>
-            <h2>Add Order</h2>
-            <select onChange={this.handleChange} >
-              <option>Select User</option>
-              {users.map(user =>
-                <Users key={user.id}
-                  {...user}
-                />
-              )}
-            </select>
-            <button className="btn btn-submit">Add to Order</button>
-          </form>
-        </div>
+        {this.props.isCurrentOrderActive
+          ? this.renderActiveOrder(items)
+          : this.renderInactiveOrder(items)}
       </div>
+    )
+  }
+
+  renderActiveOrder (items) {
+    if (this.props.isAuth) {
+      return ([
+        <OrderList key='order-list' items={items} onClickFn={this.deleteItem} />,
+        <AddToOrder key='add-to-order' />,
+        <CompleteButton key='complete-button' markComplete={this.markComplete} />
+      ])
+    }
+    return (
+      <OrderList key='orderlist' items={items} />
+    )
+  }
+
+  renderInactiveOrder (items) {
+    if (this.props.isAuth) {
+      return (
+        <CreateNew />
+      )
+    }
+    return (
+      <p>No current orders. Please log in to create a new order.</p>
     )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
+    isAuth: state.auth.isAuthenticated,
+    isCurrentOrderActive: state.currentOrder.isCurrentOrderActive,
     orderId: state.currentOrder.id,
-    orders: state.currentOrder.items,
-    users: state.userList
+    items: state.currentOrder.items
   }
 }
 
