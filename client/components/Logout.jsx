@@ -1,12 +1,12 @@
 import React from 'react'
-import {connect} from 'connect'
+import {connect} from 'react-redux'
 
-import {logoutUser} from '../action/logout'
+import {logoutUser} from '../actions/logout'
 
-const Logout = () => {
+const Logout = ({logoutUser}) => {
   return (
     <div>
-
+      <a onClick={logoutUser}>Logout</a>
     </div>
   )
 }

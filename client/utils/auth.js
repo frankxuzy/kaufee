@@ -19,7 +19,7 @@ export const isAuthenticated = () => {
   }
 }
 
-function removeuser () {
+export function removeuser () {
   set('token', null)
 }
 

@@ -1,4 +1,5 @@
 import {isAuthenticated} from '../utils/auth'
+import {LOGOUT_SUCCESS} from '../actions/logout'
 import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE} from '../actions/login'
 
 const initState = {
@@ -29,6 +30,12 @@ export default function auth (state = initState, action) {
         isFetching: false,
         isAuthenticated: false,
         errorMessage: action.message
+      }
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isFetching: action.isFetching,
+        isAuthenticated: action.isAuthenticated
       }
     default:
       return state
