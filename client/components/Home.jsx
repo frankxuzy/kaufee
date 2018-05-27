@@ -32,7 +32,9 @@ class Home extends React.Component {
   }
 
   markComplete () {
-    this.props.dispatch(orderComplete(this.props.orderId))
+    if (confirm('Are you sure')) {
+      this.props.dispatch(orderComplete(this.props.orderId))
+    }
   }
 
   hasAuth () {
