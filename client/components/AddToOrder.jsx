@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 
 import Users from './Users'
 import {updateOrder} from '../actions'
+import {compareName} from '../utils/widgets'
 
 class AddToOrder extends React.Component {
   constructor (props) {
@@ -26,7 +27,7 @@ class AddToOrder extends React.Component {
   }
 
   render () {
-    const users = this.props.users || []
+    const users = this.props.users.sort(compareName) || []
     return (
       <div className='addorder'>
         <form onSubmit={this.handleAdd}>
