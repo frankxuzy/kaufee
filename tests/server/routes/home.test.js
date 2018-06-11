@@ -1,9 +1,9 @@
 const request = require('supertest')
 
 jest.mock('../../../server/db/orders', () => ({
-  getCurrentOrder: (id) => Promise.resolve([
+  getCurrentOrderItems: () => Promise.resolve([
     {
-      orderId: id,
+      orderId: 1,
       userName: 'Sarah',
       orderDetails: 'flat white',
       orderItemsId: 1
@@ -11,7 +11,7 @@ jest.mock('../../../server/db/orders', () => ({
   ])
 }))
 
-jest.mock('../../../server/db/orderItems', () => ({
+jest.mock('../../../server/db/orders', () => ({
   addToOrder: (userId, orderId) => {
     if (orderId < 1) {
       return Promise.reject(new Error('Order does not exist.'))

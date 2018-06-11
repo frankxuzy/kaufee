@@ -1,5 +1,5 @@
 const env = require('./test-environment')
-const db = require('../../../server/db/orderItems')
+const db = require('../../../server/db/orders')
 
 let testDb = null
 

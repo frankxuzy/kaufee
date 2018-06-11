@@ -13,7 +13,7 @@ jest.mock('../../../server/auth/token', () => ({
 
 // mock DB Users
 jest.mock('../../../server/db/users', () => ({
-  getUser: (id) => Promise.resolve({
+  getUserByCredId: (id) => Promise.resolve({
     userId: id,
     name: 'Don',
     orderText: 'Flat White'
