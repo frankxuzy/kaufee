@@ -12,7 +12,8 @@ router.use(express.json())
 module.exports = router
 
 router.get('/', (req, res) => {
-  db.getCurrentOrderItems()
+  const test = db.getCurrentOrderItems
+  test()
     .then(items => {
       if (!items.length) {
         return res.json({

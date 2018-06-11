@@ -6,12 +6,9 @@ jest.mock('../../../server/db/orders', () => ({
       orderId: 1,
       userName: 'Sarah',
       orderDetails: 'flat white',
-      orderItemsId: 1
+      orderItemId: 1
     }
-  ])
-}))
-
-jest.mock('../../../server/db/orders', () => ({
+  ]),
   addToOrder: (userId, orderId) => {
     if (orderId < 1) {
       return Promise.reject(new Error('Order does not exist.'))
