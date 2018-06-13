@@ -4,7 +4,8 @@ import {connect} from 'react-redux'
 import {receiveLogin} from '../actions/login'
 import {registerUser, getUser} from '../apiClient'
 
-class Register extends React.Component {
+// export here for tests useage
+export class Register extends React.Component {
   constructor (props) {
     super(props)
     this.state = {

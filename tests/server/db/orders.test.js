@@ -17,7 +17,7 @@ test('test the environment', () => {
 })
 
 test('getCurrentOrder returns 1 coffee order', () => {
-  return db.getCurrentOrder(1, testDb)
+  return db.getCurrentOrderItems(testDb)
     .then(orders => {
       const actual = orders.length
       expect(actual).toBe(1)
