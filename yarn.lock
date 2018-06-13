@@ -3884,9 +3884,9 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-nock@^9.2.5:
-  version "9.2.5"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-9.2.5.tgz#c131fc8d3c4723f386be0269739638be84733f2f"
+nock@^9.3.2:
+  version "9.3.2"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-9.3.2.tgz#f2f52a784a8a33d7496f4ab5b28c3b879091e6d6"
   dependencies:
     chai "^4.1.2"
     debug "^3.1.0"

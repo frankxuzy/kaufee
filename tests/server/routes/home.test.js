@@ -46,6 +46,7 @@ test('post /api/v1/current-order add to order', () => {
     })
 })
 
+// todo: need mock token.decode
 test('post /api/v1/current-order should not add to order', () => {
   const expected = 500
   const orderData = {
