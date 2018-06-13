@@ -4,6 +4,8 @@ import Adapter from 'enzyme-adapter-react-16'
 import {Register} from '../../../client/components/Register.jsx'
 
 Enzyme.configure({adapter: new Adapter()})
+
+// refer to https://redux.js.org/recipes/writing-tests#example-3 to setup test
 test('Register />', () => {
   const expected = 5
   const wrapper = shallow(<Register />)
