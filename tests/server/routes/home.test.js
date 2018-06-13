@@ -20,6 +20,17 @@ jest.mock('../../../server/db/orders', () => ({
   }
 }))
 
+// mock auth/token
+jest.mock('../../../server/auth/token', () => ({
+  decode: (req, res, next) => {
+    req.user = {
+      id: 1
+    }
+    next()
+  },
+  issue: (req, res, next) => next()
+}))
+
 const server = require('../../../server/server')
 
 test('get /api/v1/current-order returns current order', () => {
